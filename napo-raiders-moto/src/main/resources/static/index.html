@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller de Motos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        #products-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .product-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin: 10px;
+            width: 200px;
+        }
+
+        .product-card img {
+            max-width: 100%;
+        }
+
+        .product-card h2 {
+            margin-top: 0;
+            font-size: 1.2em;
+        }
+
+        .product-card p {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+<h1>Productos del Taller de Motos</h1>
+<div id="products-container"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        fetch('/products')
+            .then(response => response.json())
+            .then(products => {
+                const productsContainer = document.getElementById('products-container');
+
+                products.forEach(product => {
+                    const productCard = document.createElement('div');
+                    productCard.classList.add('product-card');
+
+                    const productName = document.createElement('h2');
+                    productName.textContent = product.productName;
+
+                    const productInfo = document.createElement('p');
+                    productInfo.textContent = product.productInfo;
+
+                    const productPrice = document.createElement('p');
+                    productPrice.textContent = `Precio: ${product.productPrice}`;
+
+                    const productStock = document.createElement('p');
+                    productStock.textContent = `Stock: ${product.productStock}`;
+
+                    productCard.appendChild(productName);
+                    productCard.appendChild(productInfo);
+                    productCard.appendChild(productPrice);
+                    productCard.appendChild(productStock);
+
+                    productsContainer.appendChild(productCard);
+                });
+            })
+            .catch(error => {
+                console.error('Error al obtener los productos:', error);
+            });
+    });
+</script>
+</body>
+</html>
